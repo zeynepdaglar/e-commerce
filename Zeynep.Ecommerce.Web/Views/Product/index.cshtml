@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "ProductInformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="pageApp" class="container overflow-hidden">
+    <div class="row">
+        <div class="col" style="width: 30rem; margin: 12px;">
+
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" >
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    
+                        <div class="carousel-item" v-bind:class="{active: index===0}" v-for="(img, index) in images">
+                            <img v-bind:src="'/img/Products/'+img" class="d-block w-100" alt="...">
+                        </div>
+                    
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="col" style="width: 30rem; margin: 12px;">
+            <div>
+
+                <div class="row">
+
+                    <div class="d-block w-100" >
+
+                        <a href="/Product/index" class="card-link" style="text-decoration:none">
+                            
+                            <div class="card-body p-3 border bg-light" >
+
+                                <h5 class="card-title"><span style="color:black">{{ product.productName }}</span></h5> <br />
+                                <p class="card-text" style="font-size:large"><span style="color:black">{{product.productPrice}}TL</span></p> <br />
+                                <a href="#" class="btn btn-primary">Add To Cart</a>
+
+
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section VueScript
+{
+    var productId = @int.Parse(Request.QueryString["productId"] ?? "0") ;
+
+    var pageApp = new Vue({
+    el: '#pageApp',
+    data: {
+        product: {},
+        images: []
+    }
+    });
+
+    $(document).ready(function () {
+        getProduct(productId, function (data) {
+            console.log(data);
+            pageApp.product = data;
+            var images = [];
+            if(data.productPhoto1) images.push(data.productPhoto1);
+            if(data.productPhoto2) images.push(data.productPhoto2);
+            if(data.productPhoto3) images.push(data.productPhoto3);
+            pageApp.images = images;
+        });
+    });
+}
+

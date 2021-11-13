@@ -1,0 +1,12 @@
+﻿#hero {
+    background-color:bisque;
+    background-size: cover;
+    background-position: center center;
+    /*Background-attachment sayfayı kaydırdıgımızda göresel ne durumda olucak onu belirlememizi sağlar eğer fixed dersek sayfayı 
+    kaydırdıgımızda görsel sabit kalır*/ 
+}
+
+#hero .container
+{
+    height: 10vh;
+}

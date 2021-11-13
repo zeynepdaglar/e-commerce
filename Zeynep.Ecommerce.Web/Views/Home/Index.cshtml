@@ -1,0 +1,43 @@
+﻿
+
+<div id="pageApp">
+
+    <div class="row">
+
+        <div v-for="product in products" class="card" style="width: 12rem; margin: 12px;">
+
+            <a v-bind:href="'/product?productId=' + product.productId" class="card-link" style="text-decoration:none">
+                <img v-bind:src="'/img/Products/'+ product.productPhoto1 " class="card-img-top" alt="...">
+                <div class="card-body">
+
+                    <h5 class="card-title"><span style="color:black">{{ product.productName }}</span></h5> <br />
+                    <p class="card-text"><span style="color:black">{{product.productPrice}}TL</span></p> <br />
+
+                    <a href="#" class="btn btn-primary">Add To Cart</a>
+
+
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>
+
+@section VueScript
+{
+    var categoryId = @int.Parse(Request.QueryString["categoryId"] ?? "0") ;
+
+    var pageApp = new Vue({
+    el: '#pageApp',
+    data: {
+    products: []
+    }
+    });
+
+    $(document).ready(function () {
+        getProducts(categoryId, function (data) {
+            console.log(data);
+            pageApp.products = data;
+       });
+    });
+}
